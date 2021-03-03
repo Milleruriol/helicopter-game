@@ -1,0 +1,316 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+
+
+<title>Helicopter</title>
+<link href="css/style.css" rel="stylesheet" type="text/css">
+
+  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+ <script type="text/javascript" src="js/jquery.depend.min.js"></script>
+
+</head>
+
+<body>
+
+<!--slide 1-->
+<div id="slide1"class="wrap">
+  <div id="hel_track">
+  <div id="helicopter"></div>
+  
+</div>
+<div id="bottom">
+<div id="guy_track"> </div>
+<div id="box" class"ui-widget-header ui-droppable ui-state-highlight"></div>
+ 
+<div id="guy" class="ui-widget-content ui-draggable ui-draggable-handle"></div>
+ </div><!--end of bottom-->
+ 
+<div id="store">
+</div>
+
+
+
+<div class="slide2">
+  <p>You passed Pimnj Test</p>
+  <img id="refre"src="img/arrow.png">
+  <p id="prefresh">Refresh</p>
+
+</div>
+
+</div><!--end of slide 1-->
+
+
+
+
+
+<script>// prevent the movement of ipad
+//$(document).bind('touchmove', false);
+</script>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    var helPos=1;
+    var boxReady=1;
+    var storeNumber=1;
+     function clearBox(){
+      var x=$("#helicopter").offset();
+      var min = -9; 
+      var max = 3; 
+      var random = Math.floor(Math.random() * (max - min + 1)) + min; 
+      if(random < 4){random = random - 7;}
+      var random_b=random*19;
+     
+      var $helLeftb=(x.left/3)+random_b+100;
+     //alert($helLeftb);
+      $('#box').css({
+                'display': 'block',
+                'top': '100px',
+                'width': '75px',
+                'left': '370px',
+                'left': $helLeftb,
+                'backgroundSize': '0px'
+                  });
+                        }
+     function dropBox(){
+      //alert($boxReady);
+      if(boxReady==1){
+ clearBox();
+     /* var v=$("#helicopter").offset();
+      var $helLeft=v.left;
+     alert($helLeft);
+  $('#box').css({
+                'display': 'block',
+                'top': '100px',
+                'width': '75px',
+                'left': '370px',
+                'left': '250px',
+                'backgroundSize': '0px'
+                  });*/
+ $('#box').animate({  
+      "top": "+=419px", 
+      "left": "+=149px", 
+      "width": "167px",    
+      "backgroundSize": "60px"}, 8500, function(){ var $boxReady=1;} ); 
+ }   
+}
+function clearHeli(){
+  //flip();
+
+$('#helicopter').animate({
+               
+                'width': '364px',
+                'left': '0px',
+                
+                'backgroundSize': '412px'
+                  });
+
+}
+    function heliLR(){
+ 
+    $('#helicopter').animate({ 
+      "left": "+=800px", 
+      "width": "100px",    
+      "backgroundSize": "112px"}, 5000, function(){flip();dropBox();} ); 
+    $('#helicopter').animate({ 
+      "left": "-=800px", 
+      "width": "100px",    
+      "backgroundSize": "112px"}, 3000, function(){flip();heli1();} );
+    
+}
+function heli1(){
+ 
+    $('#helicopter').animate({ 
+      "left": "10px", 
+      "width": "612px",    
+      "backgroundSize": "612px"}, 5000, function(){flip();} ); 
+     $('#helicopter').animate({ 
+      "left": "+=800px", 
+      "width": "612px",    
+      "backgroundSize": "612px"}, 3000, function(){flip();dropBox();} ); 
+    $('#helicopter').animate({ 
+      "left": "-=800px", 
+      "width": "100px",    
+      "backgroundSize": "112px"}, 5000, function(){flip();heliLR();} );
+    
+}
+function restart(){
+  $( ".slide2" ).show( "fold", 1000 );
+
+$('#refre').click(function() {
+    location.reload();
+});
+}
+ 
+
+
+function storeFirst(){
+ 
+    $('#guy').css({
+            'left': '567px',
+            'background-image': 'url(img/guy.png)'
+          });
+    $( "#store" ).toggle( "explode", function(){
+      //var storeImg=$("#store").css("background-image");
+      var storeNumberSum = storeNumber + 1;
+      //alert(storeNumber);
+       storeNumber=storeNumberSum;
+        if(storeNumber=='2'){
+          $('#store').css({
+            'display': 'block',
+            //'top':'112px',
+            'height':'486px',
+            'background-image': 'url(img/store-2.png)'
+          });
+            }
+           else if(storeNumber=='3'){
+          $('#store').css({
+            'display': 'block',
+            'height':'629px',
+            'top':'-9px',
+            'background-image': 'url(img/store-3.png)'
+          });
+            }
+            else if(storeNumber=='4'){
+          $('#store').css({
+            'display': 'block',
+            'height':'486px',
+            'top':'248px',
+            'background-image': 'url(img/store-4.png)'
+          });
+            }else if(storeNumber=='5'){
+          $('#store').css({
+            'display': 'block',
+            'background-image': 'url(img/store-5.png)'
+          });
+          restart();
+            }
+
+      });
+}
+
+function guyMoveBack(){
+$('#guy').css({
+            'background-image': 'url(img/guy-b.gif)'
+                        });
+  $('#box').css({
+            'display': 'none'
+                        });
+  $('#guy').animate({ 
+      "left": "607px",
+      "top": "431px"
+   }, 5000, function(){storeFirst();} );
+    
+   
+
+
+}
+function flip(){
+  var pos_init = $('#helicopter').css('transform');
+  var local_var = pos_init.substring(0,10);
+ // if( $('#helicopter').css('transform') == 'matrix3d(0.994522, 0, -0.104528, 0, 0, 1, 0, 0, 0.104528, 0, 0.994522, 0, 0, 0, 0, 1)'
+  if( local_var == 'matrix3d(0') {
+  //alert('6deg');
+    $('#helicopter').css({
+     
+            'transform': 'rotateY(180deg)',
+            'transform-style': 'preserve-3d',
+            '-webkit-transform': 'rotateY(180deg)',
+            '-webkit-transform-style': 'preserve-3d',
+            '-moz-transform': 'rotateY(180deg)',
+            '-moz-transform-style': 'preserve-3d'
+            /* '-webkit-transition': '5s ease-in-out',
+    '-moz-transition': '5s ease-in-out',
+    '-o-transition': '5s ease-in-out'*/
+});
+  }
+    else {
+//alert('180deg');
+      $('#helicopter').css({
+            'transform': 'rotateY(6deg)',
+            'transform-style': 'preserve-3d',
+            '-webkit-transform': 'rotateY(6deg)',
+            '-webkit-transform-style': 'preserve-3d',
+            '-moz-transform': 'rotateY(6deg)',
+            '-moz-transform-style': 'preserve-3d'
+                        });
+    }///alert('flip');
+  }
+  /*function flipB(){
+    $('#helicopter').css({
+            //'transform': 'rotateY(180deg)',
+            '-webkit-transform': 'rotateY(180deg)',
+            '-webkit-transform-style': 'preserve-3d',
+            '-moz-transform': 'rotateY(180deg)',
+            '-moz-transform-style': 'preserve-3d'
+});
+ */ 
+
+$( "#guy").draggable( {
+    //containment: '#guy_track',
+   // cursor: 'move',
+    revert: "valid",
+   // snap: '#guy_track'
+  } );
+$( "#box" ).droppable({
+
+  tolerance: 'touch', 
+    over: function(event, ui) {
+            /** We add the hoverClass when the moveable object is inside of the dropable object **/
+      guyMoveBack();
+}
+});
+
+
+ /* */
+ /*function first(){
+  
+dropBox('20px');/*
+moveBackw();
+moveEnd();*/
+
+/*}/*
+ function second(){
+
+moveForw();
+moveBackw();
+dropBox('200px');
+moveEnd();
+}
+ function third(){
+moveForw();
+dropBox('400px');
+moveBackw();
+moveEnd();
+}*/
+//flip();
+/*
+heliMov('560px','864px','812px');
+heliMov('-60px','164px','112px');
+heliMov('910px','164px','112px');
+heliMov('910px','164px','112px');
+
+*/
+ heliLR();
+
+  /*$('#guy_track').mousemove(function(e){
+    $("#guy").css({left:e.pageX-120, top:e.pageY-80});
+});*/
+//moveBackw();
+  });
+
+   
+   
+
+  
+  </script>
+</div>
+</body>
+
+
+</html>
